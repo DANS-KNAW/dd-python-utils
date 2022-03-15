@@ -1,18 +1,17 @@
 import argparse
 
-# use the config 'globals'... yes I know it's sub-optimal
-import config
+import utils.config as CONFIG
 
-from utils.ds_pidsfile import store_pids
-from utils.dv_search import get_dataset_pids_from_search
+from utils.common.ds_pidsfile import store_pids
+from utils.common.dv_search import get_dataset_pids_from_search
 
 
 def retrieve_dataset_pids_command(dataverse_alias, output_filename):
     print('Args: ' + dataverse_alias + ',  ' + output_filename)
-    print("Example using server URL: " + config.SERVER_URL)
-    pids = get_dataset_pids_from_search(config.SERVER_URL, dataverse_alias)
+    print("Example using server URL: " + CONFIG.SERVER_URL)
+    pids = get_dataset_pids_from_search(CONFIG.SERVER_URL, dataverse_alias)
     # store in work dir, for further processing and or inspection
-    store_pids(pids, config.OUTPUT_DIR, output_filename)
+    store_pids(pids, CONFIG.OUTPUT_DIR, output_filename)
 
 
 if __name__ == '__main__':

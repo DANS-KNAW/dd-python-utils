@@ -1,20 +1,20 @@
 import argparse
 import os
 
-import config
+import utils.config as CONFIG
 
-from utils.batch_processing import batch_process
-from utils.ds_pidsfile import load_pids
-from utils.dv_api import publish_dataset
+from utils.common.batch_processing import batch_process
+from utils.common.ds_pidsfile import load_pids
+from utils.common.dv_api import publish_dataset
 
 
 def publish_dataset_command(pids_file, type):
     # look for inputfile in configured OUTPUT_DIR
-    full_name = os.path.join(config.OUTPUT_DIR, pids_file)
+    full_name = os.path.join(CONFIG.OUTPUT_DIR, pids_file)
     pids = load_pids(full_name)
 
     # Long delay because publish is doing a lot after the async. request is returning... and sometimes datasets get locked
-    batch_process(pids, lambda pid: publish_dataset(config.SERVER_URL, pid, type), delay=5.0)
+    batch_process(pids, lambda pid: publish_dataset(CONFIG.SERVER_URL, pid, type), delay=5.0)
 
 
 if __name__ == '__main__':

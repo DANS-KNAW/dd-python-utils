@@ -1,14 +1,13 @@
 import argparse
 
-# use the config 'globals'... yes I know it's sub-optimal
 import os
 
-import config
+import utils.config as CONFIG
 
-from utils.batch_processing import batch_process
-from utils.ds_metadatafile import store_dataset_result
-from utils.ds_pidsfile import store_pids, load_pids
-from utils.dv_api import get_dataset_metadata_export
+from utils.common.batch_processing import batch_process
+from utils.common.ds_metadatafile import store_dataset_result
+from utils.common.ds_pidsfile import load_pids
+from utils.common.dv_api import get_dataset_metadata_export
 
 
 def retrieve_dataset_metadata_action(server_url, pid, output_dir):
@@ -20,11 +19,11 @@ def retrieve_dataset_metadata_action(server_url, pid, output_dir):
 
 def retrieve_dataset_metadata_command(input_filename, output_dir):
     print('Args: ' + input_filename + ',  ' + output_dir)
-    print("Example using server URL: " + config.SERVER_URL)
+    print("Example using server URL: " + CONFIG.SERVER_URL)
 
     # create output dir if not exists!
-    #work_path = os.path.dirname(config.OUTPUT_DIR)
-    save_path = os.path.join(config.OUTPUT_DIR, output_dir)
+    #work_path = os.path.dirname(CONFIG.OUTPUT_DIR)
+    save_path = os.path.join(CONFIG.OUTPUT_DIR, output_dir)
     if os.path.isdir(save_path):
         print("Skipping dir creation, because it already exists: " + save_path)
     else:
@@ -32,10 +31,10 @@ def retrieve_dataset_metadata_command(input_filename, output_dir):
         os.makedirs(save_path)
 
     # look for inputfile in configured OUTPUT_DIR
-    full_name = os.path.join(config.OUTPUT_DIR, input_filename)
+    full_name = os.path.join(CONFIG.OUTPUT_DIR, input_filename)
     pids = load_pids(full_name)
 
-    batch_process(pids, lambda pid: retrieve_dataset_metadata_action(config.SERVER_URL, pid, save_path), config.OUTPUT_DIR, delay=0.2)
+    batch_process(pids, lambda pid: retrieve_dataset_metadata_action(CONFIG.SERVER_URL, pid, save_path), CONFIG.OUTPUT_DIR, delay=0.2)
 
 
 

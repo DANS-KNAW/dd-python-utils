@@ -1,13 +1,20 @@
-
-# Simple for-loop processing on each dataset with the PID in the list, which is also loaded completely into memory.
-# No multi-threading, no streaming no chaining, just plain and simple one thing at a time in a loop.
 from datetime import datetime
 import time
 
+
 def batch_process(pids, process_action_func, logging_dir='.', delay=0.1):
+    '''
+    Simple for-loop processing on each dataset with the PID in the list, which is also available completely into memory.
+    No multi-threading, no streaming no chaining, just plain and simple one thing at a time in a loop.
+    :param pids: List of dataset pids to process
+    :param process_action_func: Function that gets called with the pid as parameter, use lambda if you have more params
+    :param logging_dir: Location where the process log files will be written
+    :param delay: Number of seconds (float) the processing should wait before doing another step, helps keep the server happy!
+    :return:
+    '''
     # NOTE: maybe use logging for this next file writing?
     timestamp_str = '_' + datetime.now().strftime("%Y%m%d_%H%M%S")
-    mutated_dataset_pids_file = open(logging_dir + '/pids_mutated'
+    mutated_dataset_pids_file = open(logging_dir + '/pids_processed'
                                      + timestamp_str + '.txt', 'w')
 
     num_pids = len(pids)  # we read all pids in memory and know how much we have
@@ -20,7 +27,7 @@ def batch_process(pids, process_action_func, logging_dir='.', delay=0.1):
         # note that we could use the 'rich' library to do fancy terminal stuf!
         print("[{} of {}] Processing dataset with pid: {}".format(num, num_pids, pid))
         try:
-            mutated = process_action_func(pid)  # delete_contributor_role(pid)
+            mutated = process_action_func(pid)
             # log the pids for datatsets that are changed, which might need publishing...
             if mutated:
                 mutated_dataset_pids_file.write(pid + '\n')

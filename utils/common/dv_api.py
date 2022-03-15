@@ -6,21 +6,21 @@ import requests
 # Also note that here we use the PID (persistentId) instead of the internal ID form of the requests.
 
 
-# using the public search 'API', so no token needed
 def search(server_url, subtree, start=0, rows=10):
     '''
-    do a query via the public search API, only published datasets
+    Do a query via the public search API, only published datasets
+    using the public search 'API', so no token needed
+
     Note that the current functionality of this function is very limited!
 
     :param subtree: This is the collection (dataverse alias)
                     it recurses into a collection and its children etc. very useful with nesting collection
-    :param start:
-    :param rows:
-    :return:
+    :param start: The cursor (zero based result index) indicating where the result page starts
+    :param rows: The number of results returned in the 'page'
+    :return: The 'paged' search results in a list of dictionaries
     '''
 
-    # always type=dataset, those have pids
-    #
+    # always type=dataset, those have pids (disregarding pids for files)
     params = {
                 'q': '*',
                 'subtree': subtree,
@@ -57,6 +57,7 @@ def get_dataset_metadata_export(server_url, pid):
     # assume json, but not all exporters have that!
     resp_data = dv_resp.json()  # Note that the response json has no wrapper around the data
     return resp_data
+
 
 # with a token, can also get metadata from drafts
 def get_dataset_metadata(server_url, api_token, pid):
