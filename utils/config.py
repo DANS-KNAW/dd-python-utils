@@ -1,14 +1,14 @@
 import configparser
+import os
 
-
-
+filepath = os.path.realpath(__file__)
 # Config
 
 # Note: You should have something similar to a VM (with Vagrant or Docker) running Dataverse
 # for doing (integration) tests, which you MUST do before running anything on production!
 
 # the file defaults to inside work dir, but maybe have it overidden by environment or commandline params?
-CONFIG_FILE = "../work/config.ini"
+CONFIG_FILE = os.path.normpath(os.path.join(filepath, "../../work/config.ini"))
 
 # read the ini file from the work dir
 # remember to create this 'work' dir and not add it to Git!

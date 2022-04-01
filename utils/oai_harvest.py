@@ -1,4 +1,4 @@
-# get all records from the OAI
+# Harvest dataset metadata records via the OAI-PMH protocol
 import argparse
 import os
 
@@ -13,7 +13,7 @@ from utils.common.dv_api import get_oai_records, get_oai_records_resume
 def save_oai_records(xml_doc, counter, records_output_dir):
     # Improve the next
     # count number of records and print it
-    print(len(xml_doc.findall('.//{http://www.openarchives.org/OAI/2.0/}record')))
+    #print(len(xml_doc.findall('.//{http://www.openarchives.org/OAI/2.0/}record')))
 
     xml_filename = 'recordset_' + str(counter) + '.xml'
     f = open(os.path.join(records_output_dir, xml_filename), "wb")
@@ -27,11 +27,11 @@ def oai_harvest_command(server_url, output_dir, format, set=None):
     # create directory if needed
     timestamp_str = datetime.now().strftime("%Y%m%d_%H%M%S")
     harvest_dirname = 'oai_harvest_' + format + '_' + timestamp_str
-    #records_output_dir = '/Users/paulboon/git/service/dataverse-dans/dd-python-utils/work/' + harvest_dirname
     records_output_dir = os.path.join(output_dir, harvest_dirname)
-
     os.makedirs(records_output_dir)
 
+    print("Harvesting from: {} format: {} set: {}".format(server_url, format, set))
+    print("Storing resutls in: {}".format(os.path.abspath(records_output_dir)))
     xml_doc = get_oai_records(server_url, format=format, set=set)
 
     counter = 0
@@ -57,9 +57,11 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     oai_format = args.format  # Note that an important one we have in dataverse is 'oai_datacite'
-    oai_set = None  # TODO make it us ethe args, if specified!
+    oai_set = None
+    if args.set:
+        oai_set = args.set
 
     server_url = CONFIG.SERVER_URL
     output_dir = CONFIG.OUTPUT_DIR
 
-    oai_harvest_command(server_url, output_dir, format=oai_format)
+    oai_harvest_command(server_url, output_dir, format=oai_format, set=oai_set)

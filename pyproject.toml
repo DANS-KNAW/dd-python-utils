@@ -1,11 +1,14 @@
 [tool.poetry]
-name = "dd-python-utils"
+name = "utils"
 version = "0.1.0"
 description = ""
 authors = ["Paul Boon <paul.boon@dans.knaw.nl>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
+requests = "^2.26.0"
+lxml = "^4.8.0"
+dicttoxml = "^1.7.4"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
