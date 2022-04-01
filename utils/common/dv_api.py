@@ -1,3 +1,5 @@
+import json
+
 import requests
 
 from lxml import etree
@@ -44,7 +46,7 @@ def search(server_url, subtree, start=0, rows=10):
     # print(json.dumps(resp_data, indent=2))
     return resp_data
 
-
+# TODO make exporter a param instead of hardcoded dataverse_json
 # No token needed for public /published datsets
 def get_dataset_metadata_export(server_url, pid):
     params = {'exporter': 'dataverse_json', 'persistentId': pid}

@@ -41,7 +41,6 @@ def convert_dataset_metadata_command(pids_file, input_dir, output_dir):
     batch_process(pids, lambda pid: convert_dataset_metadata_action(CONFIG.SERVER_URL, pid, load_path, save_path), CONFIG.OUTPUT_DIR, delay=0.0)
 
 
-
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Retrieves the metadata for all published datasets with the pids in the given inputfile')
     parser.add_argument('-p', '--pids_file', default='dataset_pids.txt', help='The input file with the dataset pids')
