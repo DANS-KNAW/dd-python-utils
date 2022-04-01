@@ -150,6 +150,8 @@ def reindex_dataset(server_url, pid):
 # oai?verb=Identify
 # oai?verb=ListSets
 # oai?verb=ListMetadataFormats
+# we could add function for that if we wanted
+#
 # Default there is no set specified and you get just all
 # also no date range (with from, until)
 def get_oai_records(server_url, format, set=None):
