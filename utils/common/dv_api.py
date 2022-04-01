@@ -1,5 +1,7 @@
 import requests
 
+from lxml import etree
+
 # Thin 'client' functions for http API on the dataverse service, not using a API lib, just the requests lib
 # could be placed in a class that also keeps hold of the url and token that we initialise once!
 #
@@ -140,4 +142,37 @@ def reindex_dataset(server_url, pid):
     dv_resp.raise_for_status()
     resp_data = dv_resp.json()['data']
     return resp_data
+
+
+# Remember to get info on the OAI endpoint you can do:
+# oai?verb=Identify
+# oai?verb=ListSets
+# oai?verb=ListMetadataFormats
+# Default there is no set specified and you get just all
+# also no date range (with from, until)
+def get_oai_records(server_url, format, set=None):
+    params = {'verb': 'ListRecords', 'metadataPrefix': format}
+    if set is not None:
+        params['set'] = set
+    dv_resp = requests.get(server_url + '/oai',
+                           params=params)
+
+    dv_resp.raise_for_status()
+    # assume XML
+    xml_doc = etree.fromstring(dv_resp.content)
+    # alternatively we could use the parse directly and not requests.get
+    # xml_doc = etree.parse(url).getroot()
+
+    return xml_doc
+
+
+def get_oai_records_resume(server_url, token):
+    params = {'verb': 'ListRecords', 'resumptionToken': token}
+    dv_resp = requests.get(server_url + '/oai',
+                           params=params)
+
+    dv_resp.raise_for_status()
+    # assume XML
+    xml_doc = etree.fromstring(dv_resp.content)
+    return xml_doc
 
