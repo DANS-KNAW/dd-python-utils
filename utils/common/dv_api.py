@@ -4,6 +4,7 @@ import requests
 
 from lxml import etree
 
+
 # Thin 'client' functions for http API on the dataverse service, not using a API lib, just the requests lib
 # could be placed in a class that also keeps hold of the url and token that we initialise once!
 #
@@ -26,11 +27,11 @@ def search(server_url, subtree, start=0, rows=10):
 
     # always type=dataset, those have pids (disregarding pids for files)
     params = {
-                'q': '*',
-                'subtree': subtree,
-                'type': 'dataset',
-                'per_page': str(rows),
-                'start': str(start)
+        'q': '*',
+        'subtree': subtree,
+        'type': 'dataset',
+        'per_page': str(rows),
+        'start': str(start)
     }
 
     # params['fq'] = ''
@@ -45,6 +46,7 @@ def search(server_url, subtree, start=0, rows=10):
     resp_data = dv_resp.json()['data']
     # print(json.dumps(resp_data, indent=2))
     return resp_data
+
 
 # TODO make exporter a param instead of hardcoded dataverse_json
 # No token needed for public /published datsets
@@ -146,6 +148,25 @@ def reindex_dataset(server_url, pid):
     return resp_data
 
 
+# Warning: this deletes information that might be difficult to restore
+# Use mostly while developing and testing with non-production data.
+def delete_dataset_draft(server_url, api_token, pid):
+    headers = {'X-Dataverse-key': api_token}
+    dv_resp = requests.delete(server_url + '/api/datasets/:persistentId/versions/:draft?persistentId=' + pid,
+                              headers=headers)
+    dv_resp.raise_for_status()
+
+
+# Warning: this deletes also a PUBLISHED dataset!
+# Use mostly while developing and testing with non-production data.
+# The reasons to destroy on production should be extremely rare!
+def destroy_dataset(server_url, api_token, pid):
+    headers = {'X-Dataverse-key': api_token}
+    dv_resp = requests.delete(server_url + '/api/datasets/:persistentId/destroy/?persistentId=' + pid,
+                              headers=headers)
+    dv_resp.raise_for_status()
+
+
 # Remember to get info on the OAI endpoint you can do:
 # oai?verb=Identify
 # oai?verb=ListSets
@@ -179,4 +200,3 @@ def get_oai_records_resume(server_url, token):
     # assume XML
     xml_doc = etree.fromstring(dv_resp.content)
     return xml_doc
-

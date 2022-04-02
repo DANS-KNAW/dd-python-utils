@@ -19,6 +19,7 @@ def batch_process(pids, process_action_func, logging_dir='.', delay=0.1):
 
     num_pids = len(pids)  # we read all pids in memory and know how much we have
     print("Start batch processing on {} datasets".format(num_pids))
+    # Note that the following output is not useful when we have a lambda, maybe we could use getsource from inspect?
     print("For each dataset it will use action: {}".format(process_action_func.__name__))
     num = 0
     for pid in pids:
