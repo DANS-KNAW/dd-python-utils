@@ -1,9 +1,8 @@
 import argparse
 import os
 
-import utils.config as CONFIG
-
 from utils.common.batch_processing import batch_process
+from utils.common.config import read_config_file
 from utils.common.ds_metadatafile import construct_filename_base_from_pid
 from utils.common.ds_pidsfile import load_pids
 
@@ -21,13 +20,13 @@ def convert_dataset_metadata_action(server_url, pid, input_dir, output_dir):
 
 def convert_dataset_metadata_command(pids_file, input_dir, output_dir):
     print('Args: ' + input_dir + ',  ' + output_dir)
-    print("Example using server URL: " + CONFIG.SERVER_URL)
+    print("Example using server URL: " + config['dataverse']['server_url'])
 
     # detect if input dir exists?
-    load_path = os.path.join(CONFIG.OUTPUT_DIR, input_dir)
+    load_path = os.path.join(config['files']['output_dir'], input_dir)
 
     # create output dir if not exists!
-    save_path = os.path.join(CONFIG.OUTPUT_DIR, output_dir)
+    save_path = os.path.join(config['files']['output_dir'], output_dir)
     if os.path.isdir(save_path):
         print("Skipping dir creation, because it already exists: " + save_path)
     else:
@@ -35,13 +34,14 @@ def convert_dataset_metadata_command(pids_file, input_dir, output_dir):
         os.makedirs(save_path)
 
     # look for inputfile in configured OUTPUT_DIR
-    full_name = os.path.join(CONFIG.OUTPUT_DIR, pids_file)
+    full_name = os.path.join(config['files']['output_dir'], pids_file)
     pids = load_pids(full_name)
 
-    batch_process(pids, lambda pid: convert_dataset_metadata_action(CONFIG.SERVER_URL, pid, load_path, save_path), CONFIG.OUTPUT_DIR, delay=0.0)
+    batch_process(pids, lambda pid: convert_dataset_metadata_action(config['dataverse']['server_url'], pid, load_path, save_path), config['files']['output_dir'], delay=0.0)
 
 
 if __name__ == '__main__':
+    config = read_config_file()
     parser = argparse.ArgumentParser(description='Retrieves the metadata for all published datasets with the pids in the given inputfile')
     parser.add_argument('-p', '--pids_file', default='dataset_pids.txt', help='The input file with the dataset pids')
     parser.add_argument('-i', '--input_dir', default='dataset_metadata', help='The input dir with the dataset metadata files')

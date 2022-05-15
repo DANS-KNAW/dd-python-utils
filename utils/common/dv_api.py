@@ -104,7 +104,7 @@ def get_dataset_roleassigments(server_url, api_token, pid):
     return resp_data
 
 
-def delete_dataset_roleassigment(server_url, api_token, pid, assignment_id):
+def delete_dataset_role_assignment(server_url, api_token, pid, assignment_id):
     headers = {'X-Dataverse-key': api_token}
     dv_resp = requests.delete(server_url + '/api/datasets/:persistentId/assignments/' + str(assignment_id)
                               + '?persistentId=' + pid,

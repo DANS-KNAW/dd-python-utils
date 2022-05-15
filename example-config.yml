@@ -1,0 +1,6 @@
+dataverse:
+    api_token: your-api-token-here
+    server_url: 'https://test.archaeology.datastations.nl/'
+
+files:
+    output_dir: ../work

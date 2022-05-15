@@ -6,19 +6,19 @@ from utils.common.dv_api import search
 
 
 def get_dataset_pids_from_search(server_url, subtree):
-    '''
+    """
     Retrieve dataset pids from search results
     :param server_url:
     :param subtree:
     :return:
-    '''
+    """
     pids = []
     # pagination
     rows = 100
     start = 0
     page = 1
     condition = True  # emulate do-while
-    while (condition):
+    while condition:
         result = search(server_url, subtree, start, rows)
         total_count = result['total_count']
         print("=== Page", page, "===")
