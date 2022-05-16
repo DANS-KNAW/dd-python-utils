@@ -40,7 +40,7 @@ def retrieve_dataset_metadata_command(config, input_filename, output_dir):
 if __name__ == '__main__':
     config = read_config_file()
     parser = argparse.ArgumentParser(description='Retrieves the metadata for all published datasets with the pids in the given inputfile')
-    parser.add_argument('-p', '--pids_file', default='dataset_pids.txt', help='The input file with the dataset pids')
+    parser.add_argument('-p', '--pids-file', default='dataset_pids.txt', help='The input file with the dataset pids')
     parser.add_argument('-o', '--output', default='dataset_metadata', help='The output dir, for storing the metadata files retrieved')
     args = parser.parse_args()
 
