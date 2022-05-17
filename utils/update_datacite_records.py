@@ -18,16 +18,25 @@ def send_metadata_to_mds(config, doi, metadata):
             'Content-Type': 'application/xml;charset=UTF-8'
         },
         data=metadata)
-    print(response.status_code)
+
+
+def modify_registration_metadata(config, pid):
+    url = '%s/api/datasets/:persistentId/modifyRegistrationMetadata?persistentId=%s' % (
+        config['dataverse']['server_url'], pid)
+    response = requests.post(
+        url=url,
+        headers={
+            'X-Dataverse-key': config['dataverse']['api_token']
+        }
+    )
+    print(response.text)
 
 def update_datacite_record(config):
     def update_datacite_record_for_pid(pid):
-        md = get_dataset_metadata_export(config['dataverse']['server_url'], pid, 'Datacite', response_is_json=False)
-        send_metadata_to_mds(config, pid, md)
+        modify_registration_metadata(config, pid)
         return False
 
     return update_datacite_record_for_pid
-
 
 def update_datacite_records(config, pid_file):
     pids = load_pids(pid_file)
