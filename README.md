@@ -17,7 +17,8 @@ SYNOPSIS
     # Running scripts
     ./scripts/publish-dataset.py --help
     
-    # stop using
+    # stop using the environment 
+    # (logging out of the server or your computer will also deactivate the env)
     deactivate
 
 DESCRIPTION
@@ -27,7 +28,20 @@ in a Python virtual environment. See the SYNOPSIS above for how to set this up.
 
 ### Development
 
-This project was setup with Poetry, a dependency management tool for
-Python: [Poetry docs](https://python-poetry.org/docs/). Poetry is not required to run the scripts. 
+This project was setup with Poetry, a dependency management tool for Python: [Poetry](https://python-poetry.org/docs/).
+Poetry is not required to run the scripts. The current use is mainly to generate or update the `requirement.txt` file:
 
+    poetry export -f requirements.txt --output requirements.txt
+
+In the future we may use poetry to build installable packages.
+
+The docstrings in the code must be compatible with what `pdoc3` expects, as that is what we are using to generate the
+html pages from the docstrings.
+
+
+INSTALLATION & CONFIGURATION
+----------------------------
+
+See the [SYNOPSIS](#synopsis). To generate html doc pages from the code call `./generate-docs.sh` inside the active
+virtual environment. The docs will be output/refreshed under `html/`.
 

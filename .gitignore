@@ -134,3 +134,4 @@ dmypy.json
 # keep your stuff save from accidently pushing
 /work/
 /config.yml
+/html

@@ -6,11 +6,12 @@ def batch_process(pids, process_action_func, logging_dir='.', delay=0.1):
     """
     Simple for-loop processing on each dataset with the PID in the list, which is also available completely into memory.
     No multi-threading, no streaming no chaining, just plain and simple one thing at a time in a loop.
-    :param pids: List of dataset pids to process
-    :param process_action_func: Function that gets called with the pid as parameter, use lambda if you have more params
-    :param logging_dir: Location where the process log files will be written
-    :param delay: Number of seconds (float) the processing should wait before doing another step, helps keep the server happy!
-    :return:
+
+    Args:
+        pids (list): List of dataset pids to process
+        process_action_func (function): Function that gets called with the pid as parameter, use lambda if you have more params
+        logging_dir (path): Location where the process log files will be written
+        delay (float): Number of seconds the processing should wait before doing another step, helps keep the server happy!
     """
     # NOTE: maybe use logging for this next file writing?
     timestamp_str = '_' + datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -41,4 +42,3 @@ def batch_process(pids, process_action_func, logging_dir='.', delay=0.1):
             print("Sleeping for {} seconds...".format(delay))
             time.sleep(delay)
     print("Done processing {} datasets".format(num_pids))
-

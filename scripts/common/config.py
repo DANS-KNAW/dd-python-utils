@@ -13,9 +13,10 @@ def ensure_config_yml_exists(config_yml, example_config_yml):
 def init():
     """
     Initialization function to run by each script. It creates the work directory if it doesn't exist yet and it reads
-    config.yml. If config.yml does not exist yet then it is first created from example-config.yml
+    config.yml. If `config.yml` does not exist yet then it is first created from `example-config.yml`.
 
-    :return: a dictionary
+    Returns:
+        a dictionary with the configuration settings
     """
     local_path = os.path.dirname(__file__)
     work_path = os.path.join(local_path, '../../work')
