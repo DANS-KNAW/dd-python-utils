@@ -48,10 +48,8 @@ def search(server_url, subtree, start=0, rows=10):
     return resp_data
 
 
-# TODO make exporter a param instead of hardcoded dataverse_json
-# No token needed for public /published datsets
-def get_dataset_metadata_export(server_url, pid):
-    params = {'exporter': 'dataverse_json', 'persistentId': pid}
+def get_dataset_metadata_export(server_url, pid, exporter = 'dataverse_json', response_is_json = True):
+    params = {'exporter': exporter, 'persistentId': pid}
     dv_resp = requests.get(server_url + '/api/datasets/export',
                            params=params)
 
@@ -61,7 +59,10 @@ def get_dataset_metadata_export(server_url, pid):
     # the json result is a dictionary... so we could check for something in it
     dv_resp.raise_for_status()
     # assume json, but not all exporters have that!
-    resp_data = dv_resp.json()  # Note that the response json has no wrapper around the data
+    if response_is_json:
+        resp_data = dv_resp.json()  # Note that the response json has no wrapper around the data
+    else:
+        resp_data = dv_resp.text
     return resp_data
 
 
@@ -104,7 +105,7 @@ def get_dataset_roleassigments(server_url, api_token, pid):
     return resp_data
 
 
-def delete_dataset_roleassigment(server_url, api_token, pid, assignment_id):
+def delete_dataset_role_assignment(server_url, api_token, pid, assignment_id):
     headers = {'X-Dataverse-key': api_token}
     dv_resp = requests.delete(server_url + '/api/datasets/:persistentId/assignments/' + str(assignment_id)
                               + '?persistentId=' + pid,

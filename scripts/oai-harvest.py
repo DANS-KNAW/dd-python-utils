@@ -1,13 +1,13 @@
-# Harvest dataset metadata records via the OAI-PMH protocol
+#!/usr/bin/env python3
+
 import argparse
 import os
 
 from datetime import datetime
 from lxml import etree
 
-import utils.config as CONFIG
-
-from utils.common.dv_api import get_oai_records, get_oai_records_resume
+from common.config import init
+from common.dv_api import get_oai_records, get_oai_records_resume
 
 
 def save_oai_records(xml_doc, counter, records_output_dir):
@@ -51,6 +51,7 @@ def oai_harvest_command(server_url, output_dir, format, set=None):
 
 
 if __name__ == '__main__':
+    config = init()
     parser = argparse.ArgumentParser(description='Harvest dataset metadata records via the OAI-PMH protocol')
     parser.add_argument('-f', '--format', default='oai_dc', help='The format of the records to be harvested.')
     parser.add_argument('-s', '--set', default='', help='The recordset to be harvested.')
@@ -61,7 +62,7 @@ if __name__ == '__main__':
     if args.set:
         oai_set = args.set
 
-    server_url = CONFIG.SERVER_URL
-    output_dir = CONFIG.OUTPUT_DIR
+    server_url = config['dataverse']['server_url']
+    output_dir = config['files']['output_dir']
 
     oai_harvest_command(server_url, output_dir, format=oai_format, set=oai_set)
