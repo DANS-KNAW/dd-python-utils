@@ -1,10 +1,12 @@
+#!/usr/bin/env python3
+
 import argparse
 import os
 
-from utils.common.batch_processing import batch_process
-from utils.common.config import read_config_file
-from utils.common.ds_pidsfile import load_pids
-from utils.common.dv_api import delete_dataset_role_assignment, get_dataset_roleassigments
+from common.batch_processing import batch_process
+from common.config import init
+from common.ds_pidsfile import load_pids
+from common.dv_api import delete_dataset_role_assignment, get_dataset_roleassigments
 
 
 def delete_roleassigment_action(server_url, api_token, pid, role_assignee, role_alias):
@@ -37,7 +39,7 @@ def delete_roleassigment_command(config, pids_file, role_assignee, role_alias):
 
 
 if __name__ == '__main__':
-    config = read_config_file()
+    config = init()
     parser = argparse.ArgumentParser(description='Delete role assigment for datasets with the pids in the given inputfile')
     parser.add_argument("role_assignee", help="Role assignee (example: @dataverseAdmin)")
     parser.add_argument("role_alias", help="Role alias (example: contributor")

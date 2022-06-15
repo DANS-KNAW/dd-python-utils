@@ -1,10 +1,12 @@
+#!/usr/bin/env python3
+
 import argparse
 import os
 
-from utils.common.batch_processing import batch_process
-from utils.common.config import read_config_file
-from utils.common.ds_pidsfile import load_pids
-from utils.common.dv_api import reindex_dataset
+from common.batch_processing import batch_process
+from common.config import init
+from common.ds_pidsfile import load_pids
+from common.dv_api import reindex_dataset
 
 
 def reindex_dataset_command(server_url, pids_file):
@@ -17,7 +19,7 @@ def reindex_dataset_command(server_url, pids_file):
 
 # Note this done is via the admin api
 if __name__ == '__main__':
-    config = read_config_file()
+    config = init()
     parser = argparse.ArgumentParser(description='Reindex datasets with the pids in the given inputfile')
     parser.add_argument('-p', '--pids_file', default='dataset_pids.txt', help='The input file with the dataset pids')
     args = parser.parse_args()

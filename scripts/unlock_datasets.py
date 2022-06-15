@@ -1,12 +1,14 @@
+#!/usr/bin/env python3
+
 import argparse
 import os
 import json
 
-from utils.common.batch_processing import batch_process
-from utils.common.config import read_config_file
-from utils.common.ds_pidsfile import load_pids
+from common.batch_processing import batch_process
+from common.config import init
+from common.ds_pidsfile import load_pids
 
-from utils.common.dv_api import get_dataset_locks, delete_dataset_locks
+from common.dv_api import get_dataset_locks, delete_dataset_locks
 
 
 def unlock_dataset_action(server_url, api_token, pid):
@@ -38,7 +40,7 @@ def unlock_dataset_command(config, pids_file):
 
 
 if __name__ == '__main__':
-    config = read_config_file()
+    config = init()
     parser = argparse.ArgumentParser(description='Unlock datasets (if locked) with the pids in the given inputfile')
     parser.add_argument('-p', '--pids-file', default='dataset_pids.txt', help='The input file with the dataset pids')
     args = parser.parse_args()

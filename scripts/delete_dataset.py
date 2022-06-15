@@ -1,11 +1,13 @@
+#!/usr/bin/env python3
+
 import sys
 import argparse
 import os
 
-from utils.common.batch_processing import batch_process
-from utils.common.config import read_config_file
-from utils.common.ds_pidsfile import load_pids
-from utils.common.dv_api import delete_dataset_draft
+from common.batch_processing import batch_process
+from common.config import init
+from common.ds_pidsfile import load_pids
+from common.dv_api import delete_dataset_draft
 
 
 def delete_dataset_command(server_url, api_token, pids_file):
@@ -18,7 +20,7 @@ def delete_dataset_command(server_url, api_token, pids_file):
 
 
 if __name__ == '__main__':
-    config = read_config_file()
+    config = init()
     parser = argparse.ArgumentParser(description='Delete datasets with the pids in the given inputfile. '
                                                  'Only the draft version is deleted '
                                                  'and it will fail if it is not a draft!')

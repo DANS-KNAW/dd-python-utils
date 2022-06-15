@@ -1,10 +1,12 @@
+#!/usr/bin/env python3
+
 import argparse
 import os
 
-from utils.common.batch_processing import batch_process
-from utils.common.config import read_config_file
-from utils.common.ds_metadatafile import construct_filename_base_from_pid
-from utils.common.ds_pidsfile import load_pids
+from common.batch_processing import batch_process
+from common.config import init
+from common.ds_metadatafile import construct_filename_base_from_pid
+from common.ds_pidsfile import load_pids
 
 
 def convert_dataset_metadata_action(server_url, pid, input_dir, output_dir):
@@ -41,7 +43,7 @@ def convert_dataset_metadata_command(pids_file, input_dir, output_dir):
 
 
 if __name__ == '__main__':
-    config = read_config_file()
+    config = init()
     parser = argparse.ArgumentParser(description='Retrieves the metadata for all published datasets with the pids in the given inputfile')
     parser.add_argument('-p', '--pids_file', default='dataset_pids.txt', help='The input file with the dataset pids')
     parser.add_argument('-i', '--input_dir', default='dataset_metadata', help='The input dir with the dataset metadata files')

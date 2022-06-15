@@ -1,12 +1,13 @@
-# general purpose find and replace for field values in metadata blocks
+#!/usr/bin/env python3
+
 import argparse
 import os
 
-from utils.common.batch_processing import batch_process
-from utils.common.config import read_config_file
-from utils.common.ds_pidsfile import load_pids
+from common.batch_processing import batch_process
+from common.config import init
+from common.ds_pidsfile import load_pids
 
-from utils.common.dv_api import replace_dataset_metadatafield, get_dataset_metadata
+from common.dv_api import replace_dataset_metadatafield, get_dataset_metadata
 
 
 def replace_metadata_field_value_action(server_url, api_token, pid, mdb_name, field_name, field_from_value, field_to_value):
@@ -68,7 +69,7 @@ def replace_metadata_field_value_command(server_url, api_token, pids_file, mdb_n
 # This is not done here, because you might want several (other) changes
 # on the same datasets before publishing.
 if __name__ == '__main__':
-    config = read_config_file()
+    config = init()
     parser = argparse.ArgumentParser(description='Replace metadata field in datasets with the pids in the given inputfile')
     parser.add_argument("metadatablock_name", help="Name of the metadata block")
     parser.add_argument("field_name", help="Name of the field (json typeName)")

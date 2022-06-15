@@ -1,12 +1,13 @@
+#!/usr/bin/env python3
+
 import argparse
 
 import requests
 from requests.auth import HTTPBasicAuth
 
-from utils.common.batch_processing import batch_process
-from utils.common.config import read_config_file
-from utils.common.ds_pidsfile import load_pids
-from utils.common.dv_api import get_dataset_metadata_export
+from common.batch_processing import batch_process
+from common.config import init
+from common.ds_pidsfile import load_pids
 
 
 def send_metadata_to_mds(config, doi, metadata):
@@ -46,7 +47,7 @@ def update_datacite_records(config, pid_file):
 
 
 if __name__ == '__main__':
-    config = read_config_file()
+    config = init()
 
     parser = argparse.ArgumentParser(
         description='Downloads the DataCite metadata from Dataverse for a list of datasets and updates DataCite with '

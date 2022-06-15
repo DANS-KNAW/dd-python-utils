@@ -1,12 +1,14 @@
+#!/usr/bin/env python3
+
 import argparse
 
 import os
 
-from utils.common.batch_processing import batch_process
-from utils.common.config import read_config_file
-from utils.common.ds_metadatafile import store_dataset_result
-from utils.common.ds_pidsfile import load_pids
-from utils.common.dv_api import get_dataset_metadata_export
+from common.batch_processing import batch_process
+from common.config import init
+from common.ds_metadatafile import store_dataset_result
+from common.ds_pidsfile import load_pids
+from common.dv_api import get_dataset_metadata_export
 
 
 def retrieve_dataset_metadata_action(server_url, pid, output_dir):
@@ -38,7 +40,7 @@ def retrieve_dataset_metadata_command(config, input_filename, output_dir):
 
 
 if __name__ == '__main__':
-    config = read_config_file()
+    config = init()
     parser = argparse.ArgumentParser(description='Retrieves the metadata for all published datasets with the pids in the given inputfile')
     parser.add_argument('-p', '--pids-file', default='dataset_pids.txt', help='The input file with the dataset pids')
     parser.add_argument('-o', '--output', default='dataset_metadata', help='The output dir, for storing the metadata files retrieved')

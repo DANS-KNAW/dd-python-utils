@@ -10,14 +10,21 @@ def ensure_config_yml_exists(config_yml, example_config_yml):
         copyfile(example_config_yml, config_yml)
 
 
-def read_config_file():
+def init():
     """
-    Reads the settings from a yaml file into a dictionary. This yaml file must be located in the cfg subdirectory of
-    this project.
+    Initialization function to run by each script. It creates the work directory if it doesn't exist yet and it reads
+    config.yml. If config.yml does not exist yet then it is first created from example-config.yml
 
-    :param config_file_name: the base name of the yaml file
     :return: a dictionary
     """
+    local_path = os.path.dirname(__file__)
+    work_path = os.path.join(local_path, '../../work')
+    if os.path.isdir(work_path):
+        print("Skipping dir creation, because it already exists: %s" % work_path)
+    else:
+        print("Creating work dir: " + work_path)
+        os.makedirs(work_path)
+
     filepath = os.path.realpath(__file__)
     example_config_yml = os.path.normpath(os.path.join(filepath, "../../../example-config.yml"))
     config_yml = os.path.normpath(os.path.join(filepath, "../../../config.yml"))

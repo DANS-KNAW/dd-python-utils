@@ -1,8 +1,10 @@
+#!/usr/bin/env python3
+
 import argparse
 
-from utils.common.config import read_config_file
-from utils.common.ds_pidsfile import store_pids
-from utils.common.dv_search import get_dataset_pids_from_search
+from common.config import init
+from common.ds_pidsfile import store_pids
+from common.dv_search import get_dataset_pids_from_search
 
 
 def retrieve_dataset_pids_command(config, dataverse_alias, output_filename):
@@ -14,7 +16,7 @@ def retrieve_dataset_pids_command(config, dataverse_alias, output_filename):
 
 
 if __name__ == '__main__':
-    config = read_config_file()
+    config = init()
 
     parser = argparse.ArgumentParser(description='Retrieves the pids for all published datasets in the given collection')
     parser.add_argument('-o', '--output', default='dataset_pids.txt', help='The output file, for storing the pids retrieved')
