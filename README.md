@@ -21,6 +21,9 @@ SYNOPSIS
     # (logging out of the server or your computer will also deactivate the env)
     deactivate
 
+    # (Re-)generate docs
+    ./generate-docs.sh
+
 DESCRIPTION
 -----------
 This project contains several scripts to automate tasks for Data Station application managers. The scripts should be run
