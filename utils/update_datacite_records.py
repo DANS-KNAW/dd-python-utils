@@ -31,12 +31,14 @@ def modify_registration_metadata(config, pid):
     )
     print(response.text)
 
+
 def update_datacite_record(config):
     def update_datacite_record_for_pid(pid):
         modify_registration_metadata(config, pid)
         return False
 
     return update_datacite_record_for_pid
+
 
 def update_datacite_records(config, pid_file):
     pids = load_pids(pid_file)
