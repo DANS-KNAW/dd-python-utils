@@ -2,7 +2,7 @@ import os
 from os.path import exists
 from shutil import copyfile
 import yaml
-
+import logging
 
 def ensure_config_yml_exists(config_yml, example_config_yml):
     if not exists(config_yml):
@@ -18,12 +18,14 @@ def init():
     Returns:
         a dictionary with the configuration settings
     """
+    logging.basicConfig(level=logging.INFO, filename='work/utils.log', format='[%(asctime)s] {%(filename)s:%(lineno)d} %(levelname)s - %(message)s', filemode='w', encoding='UTF-8')
+
     local_path = os.path.dirname(__file__)
     work_path = os.path.join(local_path, '../../work')
     if os.path.isdir(work_path):
-        print("Skipping dir creation, because it already exists: %s" % work_path)
+        logging.info(msg=("Skipping dir creation, because it already exists: %", work_path))
     else:
-        print("Creating work dir: " + work_path)
+        logging.info(msg=("Creating work dir: %", work_path))
         os.makedirs(work_path)
 
     filepath = os.path.realpath(__file__)

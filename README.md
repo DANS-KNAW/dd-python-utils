@@ -1,6 +1,8 @@
 dd-python-utils
 ===============
 
+**Superseded by https://github.com/DANS-KNAW/dans-datastation-tools**
+
 Utility scripts for Data Station application management
 
 SYNOPSIS
